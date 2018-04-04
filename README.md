@@ -9,16 +9,27 @@ Run geth: ./geth --rinkeby --datadir=$HOME/.rinkeby --rpc --rpcapi="personal,eth
 
 Or 
 
-Obtain a token from https://infura.io 
+Obtain a token from https://infura.io (Currently not working as it returns invalid method...)
+
+# Testing accounts
+I've included couple of testing wallets (Rinkeby based).
+
+To utilize them, use _PUT /wallet/unlock_ to load them into the in-memory map.
+
+Password for _UTC--2018-01-23T17-12-38.825302485Z--c626f43b5e72ba6b819358ec29515545f522ed04_ is _hackmenow_
+
+Password for _UTC--2018-01-25T15-38-56.617000000Z--da333dab7975708612e0adc271f88f78d8e35157_ is _12345_
+
+Mind those are testing accounts in a Test network, i.e.: there is no point in stealing those funds :P
 
 # Api Usage
 ## Transaction Send
 1. Use _POST /wallet_ to register a new Wallet 
 2. Use _POST /transaction_ to register a new Transaction.
-3. Sign the transaction using the signature endpoint, data required for signing is present in the POST/GET Transaction responses.
-
-    Or use the endpoint to sign transaction with its wallet, _PUT /transaction/{transactionId}/sign-with-wallet_
-4. Update the transaction with the signature, use _PUT /transaction/{transactionId}/signature_
+3.  Sign the transaction in two steps:
+    1. Sign the transaction using the signature endpoint, data required for signing is present in the POST/GET Transaction responses.
+    2. Update the transaction with the signature, use _PUT /transaction/{transactionId}/signature_
+4. Or use the endpoint to sign transaction with its wallet, _PUT /transaction/{transactionId}/sign-with-wallet_
 5. Broadcast the transaction, use _PUT /transaction/{transactionId}/broadcast_
 4. Check the logs to see if the transaction is confirmed by a block, or just do polling on _GET /transaction/{transactionId}_ until it contains blockHash and blockNumber attributes
 

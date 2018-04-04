@@ -35,7 +35,7 @@ public class TransactionSubscriberConfig {
     Subscription transactionSubscription(Observable<EthTransaction> transactionObservable) {
         return transactionObservable.subscribe(ethTransaction ->
                 Try.of(() ->
-                        walletRepository.findWalletByAddress(ethTransaction.getFrom())
+                        walletRepository.findWalletByAddress(ethTransaction.getFrom()).orElse(() -> walletRepository.findWalletByAddress(ethTransaction.getTo()))
                                 .onEmpty(() -> log.debug(String.format("Transaction txHash=%s from=%s does not match with any of our wallets", ethTransaction.getHash(), ethTransaction.getFrom())))
                                 .peek(wallet -> log.info(String.format("Transaction txHash=%s from=%s matched with walletId=%s", ethTransaction.getHash(), ethTransaction.getFrom(), wallet.getWalletId())))
                                 .map(wallet -> new Tuple2<>(wallet, referenceFromInput(ethTransaction.getInput()).flatMap(transactionRepository::findByReference)))

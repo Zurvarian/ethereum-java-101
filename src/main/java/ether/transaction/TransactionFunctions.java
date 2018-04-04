@@ -8,10 +8,13 @@ import io.vavr.control.Try;
 import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.Objects;
 import java.util.UUID;
 
 import static ether.transaction.model.Transaction.NO_REFERENCE;
 import static ether.transaction.model.Transaction.NO_SIGNATURE;
+import static ether.transaction.model.TransactionType.RECEIVE;
+import static ether.transaction.model.TransactionType.SEND;
 import static org.web3j.utils.Numeric.hexStringToByteArray;
 
 @UtilityClass
@@ -34,6 +37,7 @@ class TransactionFunctions {
                 NO_REFERENCE,
                 ethTransaction.getNonce(),
                 ethTransaction.getInput(),
+                Objects.equals(ethTransaction.getFrom(), wallet.getCredentials().getAddress()) ? SEND : RECEIVE,
                 NO_SIGNATURE,
                 ethTransaction.getHash(),
                 ethTransaction.getBlockHash(),

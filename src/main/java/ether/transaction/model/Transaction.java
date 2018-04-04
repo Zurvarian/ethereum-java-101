@@ -52,6 +52,9 @@ public class Transaction {
     @NonNull
     String input;
 
+    @NonNull
+    TransactionType transactionType;
+
     @Wither
     String signature;
 

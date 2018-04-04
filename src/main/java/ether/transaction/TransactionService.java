@@ -21,6 +21,7 @@ import static ether.transaction.model.Transaction.NO_BLOCK_NUMBER;
 import static ether.transaction.model.Transaction.NO_HASH;
 import static ether.transaction.model.Transaction.NO_SIGNATURE;
 import static ether.transaction.model.Transaction.NO_TRANSACTION_INDEX;
+import static ether.transaction.model.TransactionType.SEND;
 import static java.util.UUID.randomUUID;
 import static lombok.AccessLevel.PRIVATE;
 import static org.web3j.crypto.TransactionEncoder.signMessage;
@@ -118,6 +119,7 @@ public class TransactionService {
                 createTransaction.getReference(),
                 nonceSupplier.get(),
                 toHexString(String.valueOf(createTransaction.getReference()).getBytes()),
+                SEND,
                 NO_SIGNATURE,
                 NO_HASH,
                 NO_BLOCK_HASH,
